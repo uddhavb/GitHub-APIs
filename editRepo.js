@@ -1,3 +1,46 @@
+var request = require('request');
+var fs = require("fs");
+var Promise = require('bluebird');
+var parse = require('parse-link-header');
+
+var t = process.env.TOKEN;
+var token = "token " + t;
+var userId = "ubhosle";
+
+var urlRoot = "https://github.ncsu.edu/api/v3";
+
+var newRepo = "Trial";
+editRepo(userId, newRepo);
+
+
+function editRepo(owner, newRepo) {
+    var options = {
+        url:urlRoot + '/repos/' + owner + '/' + newRepo,
+        method: 'PATCH',
+        headers: {
+            "User-Agent": "EnableIssues",
+            "content-type": "application/json",
+            "Authorization": token
+        },
+        json: {
+            "name": newRepo,
+            "description": "This is my first repository",
+            "has_wiki": false
+        }
+    };
+
+    //Send a http request to url and specify a callback that will be called upon its return.
+    request(options, function (error, response, body) {
+       // var obj = JSON.parse(body);
+        console.log(body);
+        for (var i = 0; i < body.length; i++) {
+            var name = body[i].name;
+            console.log(name);
+        }
+    });
+    
+}
+
 /*
 OUTPUT:
 
@@ -96,46 +139,4 @@ D:\REST-SELENIUM\REST>node editRepo.js
   network_count: 0,
   subscribers_count: 0 }
 */
-
-
-var request = require('request');
-var fs = require("fs");
-var Promise = require('bluebird');
-var parse = require('parse-link-header');
-var token = "token " + "30eff25b289a2607cb7f385ca74ae8f2bf803cb3";
-var userId = "ubhosle";
-
-var urlRoot = "https://github.ncsu.edu/api/v3";
-
-var newRepo = "Trial";
-editRepo(userId, newRepo);
-
-
-function editRepo(owner, newRepo) {
-    var options = {
-        url:urlRoot + '/repos/' + owner + '/' + newRepo,
-        method: 'PATCH',
-        headers: {
-            "User-Agent": "EnableIssues",
-            "content-type": "application/json",
-            "Authorization": token
-        },
-        json: {
-            "name": newRepo,
-            "description": "This is my first repository",
-            "has_wiki": false
-        }
-    };
-
-    //Send a http request to url and specify a callback that will be called upon its return.
-    request(options, function (error, response, body) {
-       // var obj = JSON.parse(body);
-        console.log(body);
-        for (var i = 0; i < body.length; i++) {
-            var name = body[i].name;
-            console.log(name);
-        }
-    });
-    
-}
 

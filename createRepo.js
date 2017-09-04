@@ -1,3 +1,50 @@
+
+
+var request = require('request');
+var fs = require("fs");
+var Promise = require('bluebird');
+var parse = require('parse-link-header');
+
+var t = process.env.TOKEN;
+var token = "token " + t;
+var userId = "ubhosle";
+
+var urlRoot = "https://github.ncsu.edu/api/v3";
+
+var newRepo = "Trial";
+createRepo(userId);
+
+function createRepo(owner) {
+    var options = {
+        url: urlRoot +'/user/repos',
+        method: 'POST',
+        headers: {
+            "User-Agent": "EnableIssues",
+            "content-type": "application/json",
+            "Authorization": token
+        },
+        json: {
+            "name": newRepo,
+            "description": "This is my first repository",
+            "homepage": "https://www.google.com/",
+            "private": false,
+            "has_issues": true,
+            "has_projects": true,
+            "has_wiki": true,
+        }
+    };
+    // Send a http request to url and specify a callback that will be called upon its return.
+    request(options, function (error, response, body) {
+        //var obj = JSON.parse(body);
+        console.log(body);
+        for (var i = 0; i < body.length; i++) {
+            var name = body[i].name;
+            console.log(name);
+        }
+    });
+}
+
+
 /*
 OUTPUT:
 
@@ -96,100 +143,3 @@ D:\REST-SELENIUM\REST>node createRepo.js
   network_count: 0,
   subscribers_count: 0 }
 */
-
-var request = require('request');
-var fs = require("fs");
-var Promise = require('bluebird');
-var parse = require('parse-link-header');
-
-var token = "token " + "30eff25b289a2607cb7f385ca74ae8f2bf803cb3";
-var userId = "ubhosle";
-
-var urlRoot = "https://github.ncsu.edu/api/v3";
-
-var newRepo = "Trial";
-createRepo(userId);
-
-function createRepo(owner) {
-    var options = {
-        url: urlRoot +'/user/repos',
-        method: 'POST',
-        headers: {
-            "User-Agent": "EnableIssues",
-            "content-type": "application/json",
-            "Authorization": token
-        },
-        json: {
-            "name": newRepo,
-            "description": "This is my first repository",
-            "homepage": "https://www.google.com/",
-            "private": false,
-            "has_issues": true,
-            "has_projects": true,
-            "has_wiki": true,
-        }
-    };
-    // Send a http request to url and specify a callback that will be called upon its return.
-    request(options, function (error, response, body) {
-        //var obj = JSON.parse(body);
-        console.log(body);
-        for (var i = 0; i < body.length; i++) {
-            var name = body[i].name;
-            console.log(name);
-        }
-    });
-}
-
-
-
-
-function getYourRepos(userName)
-{
-
-	var options = {
-		url: urlRoot + '/users/' + userName + "/repos",
-		method: 'GET',
-		headers: {
-			"User-Agent": "EnableIssues",
-			"content-type": "application/json",
-			"Authorization": token
-		}
-	};
-
-	// Send a http request to url and specify a callback that will be called upon its return.
-	request(options, function (error, response, body) 
-	{
-		var obj = JSON.parse(body);
-		console.log( obj );
-		for( var i = 0; i < obj.length; i++ )
-		{
-			var name = obj[i].name;
-			console.log( name );
-		}
-	});
-
-}
-
-function listBranches(owner,repo)
-{
-    var options = {
-        url: urlRoot+'/repos/'+ userId + '/' + repo + "/branches",
-        method: 'GET',
-        headers: {
-            //"User-Agent": "EnableIssues",
-            //"content-type": "application/json",
-            "Authorization": token
-        }
-    };
-    // Send a http request to url and specify a callback that will be called upon its return.
-    request(options, function (error, response, body) {
-        var obj = JSON.parse(body);
-        console.log(obj);
-        for (var i = 0; i < obj.length; i++) {
-            var name = obj[i].name;
-            console.log(name);
-        }
-    });
-    
-}
-
