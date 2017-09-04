@@ -1,12 +1,12 @@
 # HW1
 
-#REST
+# REST 
 I have included each code(along with its output) in a separate .js file with its respective name.
 
-#About Me
+# About Me 
 [About me](https://pages.github.ncsu.edu/ubhosle/HW1/)
 
-#Concepts
+# Concepts 
 
 ####	Explain some additional concerns related to using REST apis.
 -	The REST(Representational State Transfer) is an Application Programming Interface(api) that makes calls from the client to the server and gets back data over the HTTP protocol. 
